@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2011-2018 Red Hat, Inc. (https://github.com/Commonjava/indy)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.commonjava</groupId>
+    <artifactId>commonjava</artifactId>
+    <version>13</version>
+  </parent>
+  
+  <groupId>org.commonjava.indy</groupId>
+  <artifactId>indy-parent</artifactId>
+  <version>1.7.4-SNAPSHOT</version>
+  
+  <packaging>pom</packaging>
+  
+  <name>Indy :: Project Root</name>
+  <inceptionYear>2011-2018</inceptionYear>
+  
+  <scm>
+    <connection>scm:git:https://github.com/Commonjava/indy.git</connection>
+    <developerConnection>scm:git:git@github.com:Commonjava/indy.git</developerConnection>
+    <url>http://github.com/Commonjava/indy</url>
+    <tag>indy-parent-1.6.0</tag>
+  </scm>
+  
+  <properties>
+    <apiVersion>1</apiVersion>
+    <projectOwner>Red Hat, Inc.</projectOwner>
+    <projectEmail>https://github.com/Commonjava/indy</projectEmail>
+    
+    <!-- <maven.compiler.useIncrementalCompilation>false</maven.compiler.useIncrementalCompilation> -->
+
+    <!-- thirdparty projects -->
+    <javaVersion>1.8</javaVersion>
+    <slf4j-version>1.7.16</slf4j-version>
+    <logback-version>1.2.3</logback-version>
+    <infinispanVersion>9.4.7.Final</infinispanVersion>
+    <!--<luceneVersion>7.3.0</luceneVersion>-->
+    <hibernateVersion>5.8.1.Final</hibernateVersion>
+    <resteasyVersion>3.0.12.Final</resteasyVersion>
+    <undertowVersion>2.0.1.Final</undertowVersion>
+    <xnioVersion>3.3.0.Final</xnioVersion>
+    <keycloakVersion>4.6.0.Final</keycloakVersion>
+    <bouncycastleVersion>1.53</bouncycastleVersion>
+    <bytemanVersion>3.0.6</bytemanVersion>
+    <kafkaVersion>1.1.0</kafkaVersion>
+    <logbackVersion>1.2.3</logbackVersion>
+    <logbackContribVersion>0.1.5</logbackContribVersion>
+
+    <!-- commonjava/redhat projects -->
+    <atlasVersion>1.0.1</atlasVersion>
+    <galleyVersion>0.16.9</galleyVersion>
+    <bomVersion>24</bomVersion>
+    <webdavVersion>3.2.1</webdavVersion>
+    <partylineVersion>1.14</partylineVersion>
+    <kojijiVersion>2.7</kojijiVersion>
+    <rwxVersion>2.3</rwxVersion>
+    <jhttpcVersion>1.9</jhttpcVersion>
+    <weftVersion>1.12</weftVersion>
+    <httpTestserverVersion>1.4</httpTestserverVersion>
+    
+    <!-- <enforceBestPractices>false</enforceBestPractices> -->
+    <enforceStandards>false</enforceStandards>
+    
+    <test-forkCount>1C</test-forkCount>
+    <it-forkCount>3</it-forkCount>
+    <test-redirectOutput>true</test-redirectOutput>
+    <testEnvTimeoutMultiplier>2</testEnvTimeoutMultiplier>
+    <testTimeout>120</testTimeout>
+
+    <disableLauncher>false</disableLauncher>
+
+    <skipTests>false</skipTests>
+
+    <skipSurefire>${skipTests}</skipSurefire>
+    <skipITs>true</skipITs>
+    <quickITs>true</quickITs>
+    <skipTimingFTests>${skipITs}</skipTimingFTests>
+
+    <dockerRegistry>docker.io</dockerRegistry>
+    <dockerUser>commonjava</dockerUser>
+    <dockerStartTimeout>60000</dockerStartTimeout>
+
+    <dockerNetworkMode>bridge</dockerNetworkMode>
+    <dockerNetwork>default</dockerNetwork>
+
+    <docker-appliance-gogs>${dockerRegistry}/${dockerUser}/gogs-test-appliance</docker-appliance-gogs>
+    <gogs-waitFor>Gogs: Go Git Service</gogs-waitFor>
+    <keycloak-waitFor>WFLYSRV0025</keycloak-waitFor>
+    <docker-appliance-keycloak>${dockerRegistry}/${dockerUser}/keycloak-test-appliance</docker-appliance-keycloak>
+
+    <version.plugin.jacoco>0.8.3</version.plugin.jacoco>
+    <jacoco.report.dir>${project.build.directory}</jacoco.report.dir>
+    <junit.report.dir>${project.build.directory}/surefire-reports</junit.report.dir>
+    <failsafe.report.dir>${project.build.directory}/failsafe-reports</failsafe.report.dir>
+
+    <metrics.version>4.0.2</metrics.version>
+    <jackson-version>2.9.8</jackson-version>
+  </properties>
+  
+  <modules>
+    <module>uis</module>
+    <module>addons</module>
+  </modules>
+  
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.commonjava.indy.ui</groupId>
+        <artifactId>indy-ui-layover</artifactId>
+        <version>1.7.4-SNAPSHOT</version>
+        <scope>runtime</scope>
+      </dependency>
+
+      <!-- <dependency>
+        <groupId>org.commonjava.indy</groupId>
+        <artifactId>indy-pkg-npm-jaxrs</artifactId>
+        <version>1.7.4-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.commonjava.indy</groupId>
+        <artifactId>indy-pkg-npm-common</artifactId>
+        <version>1.7.4-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.commonjava.indy</groupId>
+        <artifactId>indy-pkg-npm-model-java</artifactId>
+        <version>1.7.4-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.commonjava.indy</groupId>
+        <artifactId>indy-content-browse-ui</artifactId>
+        <version>1.7.4-SNAPSHOT</version>
+        <classifier>reactui</classifier>
+        <type>tar.gz</type>
+      </dependency> -->
+    </dependencies>
+  </dependencyManagement>
+  
+  <dependencies>
+
+  </dependencies>
+  
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>3.0.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>${version.plugin.jacoco}</version>
+          <!-- Broken for sonarqube! -->
+          <!--<version>0.7.5.201505241946</version>-->
+          <executions>
+            <execution>
+              <id>prepare</id>
+              <goals>
+                <goal>prepare-agent</goal>
+              </goals>
+              <configuration>
+                <append>true</append>
+                <destFile>${jacoco.report.dir}/jacoco-ut.exec</destFile>
+              </configuration>
+            </execution>
+            <execution>
+              <id>prepare-it</id>
+              <goals>
+                <goal>prepare-agent-integration</goal>
+              </goals>
+              <configuration>
+                <destFile>${jacoco.report.dir}/jacoco-it.exec</destFile>
+              </configuration>
+            </execution>
+            <execution>
+              <id>merge</id>
+              <goals>
+                <goal>merge</goal>
+              </goals>
+              <phase>post-integration-test</phase>
+              <configuration>
+                <fileSets>
+                  <fileSet implementation="org.apache.maven.shared.model.fileset.FileSet">
+                    <directory>${jacoco.report.dir}</directory>
+                    <includes>
+                      <include>jacoco*.exec</include>
+                    </includes>
+                    <excludes>
+                      <exclude>jacoco-merged.exec</exclude>
+                    </excludes>
+                  </fileSet>
+                </fileSets>
+                <destFile>${jacoco.report.dir}/jacoco-merged.exec</destFile>
+              </configuration>
+            </execution>
+            <execution>
+              <id>report</id>
+              <goals>
+                <goal>report</goal>
+              </goals>
+              <configuration>
+                <dataFile>${jacoco.report.dir}/jacoco-merged.exec</dataFile>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>io.fabric8</groupId>
+          <artifactId>docker-maven-plugin</artifactId>
+          <version>0.15.14</version>
+          <extensions>true</extensions>
+
+          <configuration>
+            <skip>${disableLauncher}</skip>
+            <authConfig>
+              <push>
+                <username>${dockerUser}</username>
+                <password>${docker.password}</password>
+              </push>
+            </authConfig>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-release-plugin</artifactId>
+          <configuration>
+            <autoVersionSubmodules>true</autoVersionSubmodules>
+            <mavenExecutorId>forked-path</mavenExecutorId>
+            <useReleaseProfile>false</useReleaseProfile>
+            <arguments>-Prelease -DskipTests=true</arguments>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>2.4.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.jboss.jandex</groupId>
+          <artifactId>jandex-maven-plugin</artifactId>
+          <version>1.0.5</version>
+          <executions>
+            <execution>
+              <id>make-index</id>
+              <goals>
+                <goal>jandex</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-plugin-plugin</artifactId>
+          <version>3.4</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <dependencies>
+            <dependency>
+              <groupId>org.commonjava.indy.tools</groupId>
+              <artifactId>indy-assemblies</artifactId>
+              <version>${project.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>${javaVersion}</source>
+            <target>${javaVersion}</target>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.19.1</version>
+          <configuration>
+            <skipTests>${skipSurefire}</skipTests>
+            <redirectTestOutputToFile>${test-redirectOutput}</redirectTestOutputToFile>
+            <forkCount>${test-forkCount}</forkCount>
+            <reportsDirectory>${junit.report.dir}</reportsDirectory>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>2.19.1</version>
+          <configuration>
+            <skip>${skipITs}</skip>
+            <systemPropertyVariables>
+              <testTimeout>${testTimeout}</testTimeout>
+              <testEnvTimeoutMultiplier>${testEnvTimeoutMultiplier}</testEnvTimeoutMultiplier>
+            </systemPropertyVariables>
+            <reuseForks>false</reuseForks>
+            <redirectTestOutputToFile>${test-redirectOutput}</redirectTestOutputToFile>
+            <forkCount>${it-forkCount}</forkCount>
+            <reportsDirectory>${failsafe.report.dir}</reportsDirectory>
+<!--             <rerunFailingTestsCount>1</rerunFailingTestsCount> -->
+            <includes>
+              <include>**/*Test.java</include>
+            </includes>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${version.plugin.javadoc}</version>
+          <executions>
+            <execution>
+              <id>attach-javadocs</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+              <configuration>
+                <detectOfflineLinks>false</detectOfflineLinks>
+                <additionalparam>-Xdoclint:none</additionalparam>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>1.6</version>
+          <configuration>
+            <keyname>${gpg.keyname}</keyname>
+            <passphraseServerId>${gpg.keyname}</passphraseServerId>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>com.mycila</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <configuration>
+            <excludes>
+              <exclude>bin/**</exclude>
+              <exclude>**/*.log</exclude>
+              <exclude>scratch/**</exclude>
+              <exclude>**/.venv/*</exclude>
+              <exclude>**/venv/*</exclude>
+              <exclude>**/README</exclude>
+              <exclude>**/LICENSE*</exclude>
+              <exclude>src/test/resources/**</exclude>
+              <exclude>src/main/resources/**</exclude>
+              <exclude>**/*.groovy</exclude>
+            </excludes>
+          </configuration>
+        </plugin>
+        
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+  
+  <profiles>
+    <profile>
+      <id>run-its</id>
+      <properties>
+        <skipTests>false</skipTests>
+      </properties>
+    </profile>
+    <profile>
+      <id>ci</id>
+      <properties>
+        <skipTests>false</skipTests>
+        <skipTimingFTests>false</skipTimingFTests>
+
+        <test-forkCount>8</test-forkCount>
+        <it-forkCount>2</it-forkCount>
+        <testEnvTimeoutMultiplier>6</testEnvTimeoutMultiplier>
+
+        <dockerNetworkMode>custom</dockerNetworkMode>
+        <dockerNetwork>ci-network</dockerNetwork>
+      </properties>
+    </profile>
+    <profile>
+      <id>run-metrics</id>
+      <properties>
+        <jacoco.report.dir>${session.executionRootDirectory}/target</jacoco.report.dir>
+        <junit.report.dir>${session.executionRootDirectory}/target/surefire-reports</junit.report.dir>
+        <failsafe.report.dir>${session.executionRootDirectory}/target/failsafe-reports</failsafe.report.dir>
+      </properties>
+      <!--<modules>-->
+        <!--<module>embedder-tests</module>-->
+      <!--</modules>-->
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-jar-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>test-jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>test-jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+  
+</project>
